@@ -1,3 +1,7 @@
 *ntitled*
 *.m~
 *.h*5*
+.DS_Store
+*.err
+*.out
+
