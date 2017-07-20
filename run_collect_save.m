@@ -1,4 +1,3 @@
-%function multiple_runs(eta,pth,n)
 %%
 n=250;
 n_times=300;
@@ -14,8 +13,10 @@ h5writeatt(fname,'/','eta',eta);
 h5write(fname,'/x',x);
 h5write(fname,'/y',y);
 h5write(fname,'/t',linspace(0,t_max,n_times));
-for i=1:2
+for i=1:n_iter
+    fprintf('iter %d/%d:.....',i,n_iter);
     [~, ct,u,v,uh,vh,sWA]=one_run(x,y,eta,n_times);
+    fprintf('finished ode, saving....');
     h5create(fname,sprintf('/%03d/c',i),size(ct));
     h5write(fname,sprintf('/%03d/c',i),ct);
     h5create(fname,sprintf('/%03d/u',i),size(u));
@@ -25,4 +26,5 @@ for i=1:2
     h5writeatt(fname,sprintf('/%03d',i),'vu_MMA',sWA);
     h5writeatt(fname,sprintf('/%03d',i),'v_Matlab',vh);
     h5writeatt(fname,sprintf('/%03d',i),'u_Matlab',uh);
+    fprintf('done!\n',i)
 end
