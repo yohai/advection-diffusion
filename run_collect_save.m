@@ -12,11 +12,11 @@ if ~exist('n_iter','var')
   n_iter=1;
 end
 if ~exist('eta','var')
-  eta=1; 
+  eta=1;
 end
 
 
-fname=sprintf('data/%f.h5',eta);
+fname=sprintf('data/%1.1e.h5',eta);
 delete(fname)
 [x,y]=meshgrid(linspace(0,2*pi*(n-1)/n,n));
 h5create(fname,'/x',size(x))
