@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name="eta qqq"
+#SBATCH --job-name="eta ETA"
 #SBATCH -n 1                 # Number of cores
 #SBATCH -N 1                 # Number of nodes for the cores
-#SBATCH -t 0-12:59           # Runtime in D-HH:MM format
+#SBATCH -t 1-12:59           # Runtime in D-HH:MM format
 #SBATCH -p general           # Partition to submit to
 #SBATCH --mem=4000           # Memory pool for all CPUs
 #SBATCH -o %j.out      # File to which standard out will be written
@@ -11,4 +11,4 @@
 #SBATCH --mail-user=barsinai@seas.harvard.edu  #Email to which notifications will be sent
 
 module load matlab/R2016a-fasrc01
-matlab -nodesktop -nodisplay -r "eta=qqq; run run_collect_save"
+matlab -nodesktop -nodisplay -r "eta=ETA; n_iter=50; run run_collect_save"
