@@ -1,7 +1,20 @@
 %%
-n=250;
-n_times=300;
-t_max=5;
+if ~exist('n','var')
+  n=200;
+end
+if ~exist('n_times','var')
+  n_times=300;
+end
+if ~exist('t_max','var')
+  t_max=5;
+end
+if ~exist('n_iter','var')
+  n_iter=1;
+end
+if ~exist('eta','var')
+  eta=1; 
+end
+
 
 fname=sprintf('data/%f.h5',eta);
 delete(fname)
