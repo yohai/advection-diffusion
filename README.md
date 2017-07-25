@@ -10,6 +10,6 @@ where `m` and `n` are random integers and ![c(x,y,t)](https://latex.codecogs.com
 
 The equations are solved by explicit finite differences conservative scheme. 
 
-### Importnat functions
+### Important functions
 * `one_run` performs a single realization by generating a velocity field, integrating the equations, and returning the result
 * `run_collect_save` is a script (not a function) to perform multiple runs with a given set of parameters and store the result in a handy `hdf5` file.
