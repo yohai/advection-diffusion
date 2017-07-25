@@ -20,7 +20,7 @@ The file produced by `run_collect_save` have this format:
   * The group `/XXX` also contains `/XXX/u`,`/XXX/v`, which are the `x` and `y` componenets of the velocity field. Note that `u` and `v` are not evaluated at the same gridpoints as c since we use a staggered shceme to ensure conservation. The functional form of `u` and `v` is given in both MATLAB and Mathematica syntax in the attributes of `/XXX`.
 
 ### Data 
-Here are generated `hdf5` files:
+Here are generated `hdf5` files. The data is released under [Creative Commons CC-BY license](https://creativecommons.org/licenses/by/4.0).
 * [`eta=1.0e-03`](https://www.dropbox.com/s/wn69xu9en1417pn/1.0e-03_single.h5?dl=0)
 * [`eta=2.2e-03`](https://www.dropbox.com/s/23z795d2je14n8f/2.2e-03_single.h5?dl=0)
 * [`eta=4.6e-03`](https://www.dropbox.com/s/58nz08kcfjevw7y/4.6e-03_single.h5?dl=0)
@@ -29,3 +29,5 @@ Here are generated `hdf5` files:
 * [`eta=4.6e-02`](https://www.dropbox.com/s/1gk64n49nlw1w53/4.6e-02_single.h5?dl=0)
 * [`eta=2.2e-01`](https://www.dropbox.com/s/0bes16hrrgi8rfz/2.2e-01_single.h5?dl=0)
 * [`eta=4.6e-01`](https://www.dropbox.com/s/bithdc020dceiyd/4.6e-01_single.h5?dl=0)
+
+[![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
