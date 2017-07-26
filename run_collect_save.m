@@ -30,10 +30,10 @@ for i=1:n_iter
     fprintf('iter %d/%d:.....',i,n_iter);
     [~, ct,u,v,uh,vh,sWA]=one_run(x,y,eta,n_times);
     fprintf('finished ode, saving....');
-    h5create(fname,sprintf('/%03d/c',i),size(ct),'Datatype','single')
+    h5create(fname,sprintf('/%03d/c',i),size(ct));%,'Datatype','single')
     h5write(fname,sprintf('/%03d/c',i),ct);
-    h5create(fname,sprintf('/%03d/u',i),size(u),'Datatype','single');
-    h5create(fname,sprintf('/%03d/v',i),size(v),'Datatype','single');
+    h5create(fname,sprintf('/%03d/u',i),size(u));%,'Datatype','single');
+    h5create(fname,sprintf('/%03d/v',i),size(v));%,'Datatype','single');
     h5write(fname,sprintf('/%03d/u',i),u);
     h5write(fname,sprintf('/%03d/v',i),v);
     h5writeatt(fname,sprintf('/%03d',i),'vu_MMA',sWA);
