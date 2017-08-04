@@ -1,0 +1,83 @@
+%\documentclass[notitlepage,aps,pre,onecolumn]{revtex4-1}
+\documentclass{article}
+\usepackage{fullpage}
+
+\usepackage{color}
+\usepackage{amsmath,amsfonts,graphicx,enumerate,color,hyperref}
+\usepackage{bm,braket,cancel}
+\usepackage{tabularx}
+\usepackage[normalem]{ulem}
+\newcommand{\pa}{\partial}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\dd}[2]{\frac{d^2 #1}{d #2^2}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{{\partial #2}^2}}
+\renewcommand{\L}{\mathfrak{L}}
+\renewcommand{\O}{\mathcal{O}\left(\epsilon^2\right)}
+\newcommand{\s}[1]{^{(#1)}}
+\newcommand{\0}{^{(0)}}
+
+\usepackage[usenames]{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue!50!black},%{red!80!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+\begin{document}
+\title{Advection-diffusion of a scalar}
+\author{YBS}
+\maketitle
+
+\section{Governing equations}
+The time evolution of the concentration $c(\bm r, t)$ of a chemical which undergoes simultaneous diffusion (with diffusion constant $\eta$) and advection by a velocity field $\bm v(\bm r , t)$ is given by 
+\begin{align}
+\pd{c}{t}+\bm v \cdot \nabla c=\eta \nabla^2 c
+\label{eq:eom}
+\end{align}
+Te left-hand-side is the material time derivative (aka advective derivative).  The right-hand-side is diffusion. Physically, $\bm v$ should also satisfy an evolution equation of its own, but for our purposes we'll just assume it's constant in time. However, we will add the (physically valid) constraint that $\bm v$ is divergence-free, i.e.~$\nabla\cdot v=\sum_i \pa_i v_i=0$. In 2D, a divergence-free vector field over a periodic domain $[0,2\pi]\times[0,2\pi]$ can be decomposed to Fourier components of the form
+\begin{align}
+v_x&= \sum_i A_i m_i \cos (m_i y+\beta_i ) \cos (n_i x+\alpha_i )\ , &
+v_y&=\sum_i A_i  n_i \sin (m_i y+\beta_i ) \sin (n_i x+\alpha_i )\ ,
+\end{align}
+where $A_i$ is the amplitude, $m_i, n_i$ are integers ($(m_i, n_i)$  is the wave-vector), and $\alpha_i, \beta_i$ are phases. For the simulation I simply draw all these parameters from a uniform distribution, using 5 terms for each simulation. 
+
+\section{Numerical implementation}
+First, we write the time derivative explicitly as
+\begin{align}
+\pd{c}{t}=\eta \nabla^2 c - \bm v\cdot\nabla c=\eta \nabla^2 c - \nabla \cdot (c \bm v)\ .
+\label{eq:3}
+\end{align}
+The last transition is valid because $\nabla\cdot \bm v=0$.
+
+The equations are solved on a square grid, using a staggered grid for $v$. That is, $c$ is calculated on the points $ \left(2\pi \frac{i}{N},2\pi \frac{j}{N}\right)$ where $N$ is the number of grid points in each dimension (currently 200) and $i,j$ are integers between 0 and $N-1$. $v$ is (pre-)computed on the points $ \left(2\pi \frac{i-\frac{1}{2}}{N},2\pi \frac{j-\frac{1}{2}}{N}\right)$. This allows implementing the right-hand-side of Eq.~\eqref{eq:3} in a conservative way, i.e.~the spatial integral the right-hand-side vanishes (or alternatively, the spatial integral of $c$ remains constant in time, as it should).
+ 
+The generation of the velocity field (and the shifted spatial mesh) is done by \verb|generate_v_field|. The script \verb|run_collect_save| runs many simulations and collects them in a \verb|hdf5| file. 
+The file produced by \texttt{run\_collect\_save} have this format: 
+
+\begin{itemize}
+	\item The name of the file is the value of $\eta$.
+	\item \verb|t| is the list of times for which the solutions are calculated	(uniformly spaced).
+	\item \verb|x| and \verb|y| are matrices of shape $N\times N$ with the \texttt{x} and \texttt{y} coordinates of the	finite-differences grid for \verb|c|.
+	\item Each file contains 50 realizations, which are at groups \texttt{/001},
+	\texttt{/002}, \ldots{}, \texttt{/050}: 
+	\item \texttt{/XXX/c} is an
+	\texttt{ndarray} of shape \texttt{{[}n,n,len(t){]}} that contains the
+	concentration field. \texttt{c{[}i,j,k{]}} is the value of the
+	concentration field at position \texttt{x{[}i,j{]}} and
+	\texttt{y{[}i,j{]}} at time \texttt{t{[}k{]}}. In other words,
+	\texttt{c{[}...,i{]}} is the snapshot of the concentration field at time
+	\texttt{t{[}i{]}}. 
+	\item The group \texttt{/XXX} also contains
+	\texttt{/XXX/u},\texttt{/XXX/v}, which are the \texttt{x} and \texttt{y}
+	components of the velocity field. Note that \texttt{u} and \texttt{v}
+	are not evaluated at the same grid points as c since we use a staggered
+	scheme to ensure conservation. The functional form of \texttt{u} and
+	\texttt{v} is given in both MATLAB and Mathematica syntax in the
+	attributes of \texttt{/XXX}.
+\end{itemize} 
+
+
+\end{document}

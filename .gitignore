@@ -6,3 +6,6 @@
 *.out
 *slurm*sh
 *.pyc
+*.aux
+*.log
+*.synctex*
