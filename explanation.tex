@@ -64,12 +64,12 @@ The file produced by \texttt{run\_collect\_save} have this format:
 	\item Each file contains 50 realizations, which are at groups \texttt{/001},
 	\texttt{/002}, \ldots{}, \texttt{/050}: 
 	\item \texttt{/XXX/c} is an
-	\texttt{ndarray} of shape \texttt{{[}n,n,len(t){]}} that contains the
-	concentration field. \texttt{c{[}i,j,k{]}} is the value of the
-	concentration field at position \texttt{x{[}i,j{]}} and
-	\texttt{y{[}i,j{]}} at time \texttt{t{[}k{]}}. In other words,
-	\texttt{c{[}...,i{]}} is the snapshot of the concentration field at time
-	\texttt{t{[}i{]}}. 
+	\texttt{ndarray} of shape \texttt{[n,n,len(t)]} that contains the
+	concentration field. \texttt{c[i,j,k]} is the value of the
+	concentration field at position \texttt{x[i,j]} and
+	\texttt{y[i,j]} at time \texttt{t[k]}. In other words,
+	\texttt{c[...,i]} is the snapshot of the concentration field at time
+	\texttt{t[i]}. 
 	\item The group \texttt{/XXX} also contains
 	\texttt{/XXX/u},\texttt{/XXX/v}, which are the \texttt{x} and \texttt{y}
 	components of the velocity field. Note that \texttt{u} and \texttt{v}
